@@ -125,8 +125,10 @@ book-price-tracker/
 The service runs with a single command on a clean machine with no `.env` file required:
 
 ```bash
-docker compose up --build -d
+docker-compose up
 ```
+
+*(or `docker compose up -d` to run in detached mode)*
 
 The application runs at `http://localhost:8000` with interactive OpenAPI documentation at `http://localhost:8000/docs`.
 
@@ -509,14 +511,6 @@ docker compose exec app ruff check .
 - **Decimal Representation:** Used `NUMERIC(10,2)` in PostgreSQL and `Decimal` in Python to prevent floating-point rounding errors on currency calculations.
 - **Deterministic Pagination:** Ordered by primary sort criteria with a secondary tiebreak on `Book.id` matching the requested sort direction (`Book.id DESC` for desc, `Book.id ASC` for asc) to guarantee stable page boundaries.
 - **Decoupled Architecture:** Strict dependency inversion (`Routes → Services → Repositories → Models`) ensures easy testability and isolated database rollback fixtures.
-
----
-
-## Limitations
-
-- Scrapes static HTML pages from `books.toscrape.com`; does not execute client-side JavaScript.
-- **Concurrency & Rate Limiting:** Default concurrency is 8 workers (configurable via `SCRAPE_CONCURRENCY`) with 50–150ms jittered delays to crawl politely.
-- Long-running scrape jobs over all 50 pages run synchronously on the HTTP request thread when triggered via the POST endpoint.
 
 ---
 
