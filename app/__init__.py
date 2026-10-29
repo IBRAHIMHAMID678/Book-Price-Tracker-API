@@ -1,0 +1,1 @@
+"""Book Price Tracker Application."""
